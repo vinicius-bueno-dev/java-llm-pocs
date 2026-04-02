@@ -36,3 +36,6 @@ logs/
 # Env
 .env
 .env.local
+
+# MkDocs
+site/

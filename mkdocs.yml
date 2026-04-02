@@ -1,0 +1,48 @@
+site_name: java-llm-pocs
+site_description: POCs para estudo de Claude Code, LocalStack e Terraform com Java 21
+site_url: https://vinicius-bueno-dev.github.io/java-llm-pocs/
+
+theme:
+  name: material
+  language: pt-BR
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Modo escuro
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Modo claro
+
+nav:
+  - Home: index.md
+  - Claude Code:
+      - Básico: claude-code/01-basics.md
+  - LocalStack & Terraform:
+      - Conceitos: localstack/01-concepts.md
+      - Terraform + LocalStack: localstack/02-terraform-localstack.md
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.superfences
+  - pymdownx.inlinehilite
+  - pymdownx.tabbed:
+      alternate_style: true
+  - admonition
+  - pymdownx.details
+  - tables
+  - toc:
+      permalink: true
