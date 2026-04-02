@@ -1,0 +1,1088 @@
+{
+  "info": {
+    "name": "java-llm-pocs",
+    "description": "Collection de endpoints para as POCs do projeto java-llm-pocs.\nTodas as POCs rodam com LocalStack (localhost:4566) e Spring Boot (localhost:8080).",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080",
+      "type": "string"
+    },
+    {
+      "key": "bucket",
+      "value": "nameless-local-poc-storage",
+      "type": "string"
+    },
+    {
+      "key": "logsBucket",
+      "value": "nameless-local-poc-logs",
+      "type": "string"
+    },
+    {
+      "key": "websiteBucket",
+      "value": "nameless-local-poc-website",
+      "type": "string"
+    },
+    {
+      "key": "sqsQueueUrl",
+      "value": "http://sqs.us-east-1.localhost.localstack.cloud:4566/000000000000/nameless-local-s3-events",
+      "type": "string"
+    },
+    {
+      "key": "sqsQueueArn",
+      "value": "arn:aws:sqs:us-east-1:000000000000:nameless-local-s3-events",
+      "type": "string"
+    },
+    {
+      "key": "snsTopicArn",
+      "value": "arn:aws:sns:us-east-1:000000000000:nameless-local-s3-events",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "poc-s3-storage",
+      "description": "POC abrangente do S3 — 13 areas de feature com Spring Boot + AWS SDK v2 + LocalStack",
+      "item": [
+        {
+          "name": "Bucket Operations",
+          "item": [
+            {
+              "name": "Create Bucket",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/s3/buckets?name=my-test-bucket",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "s3", "buckets"],
+                  "query": [{ "key": "name", "value": "my-test-bucket" }]
+                }
+              }
+            },
+            {
+              "name": "List Buckets",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/s3/buckets",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "s3", "buckets"]
+                }
+              }
+            },
+            {
+              "name": "Bucket Exists",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/s3/buckets/{{bucket}}/exists",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "s3", "buckets", "{{bucket}}", "exists"]
+                }
+              }
+            },
+            {
+              "name": "Delete Bucket",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/s3/buckets/my-test-bucket",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "s3", "buckets", "my-test-bucket"]
+                }
+              }
+            },
+            {
+              "name": "Get Bucket Location",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/s3/buckets/{{bucket}}/location",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "s3", "buckets", "{{bucket}}", "location"]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Object CRUD",
+          "item": [
+            {
+              "name": "Upload Object",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    { "key": "bucket", "value": "{{bucket}}", "type": "text" },
+                    { "key": "key", "value": "test/hello.txt", "type": "text" },
+                    { "key": "file", "type": "file", "src": "" }
+                  ]
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/s3/objects/upload",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "s3", "objects", "upload"]
+                }
+              }
+            },
+            {
+              "name": "Download Object",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/s3/objects/download?bucket={{bucket}}&key=test/hello.txt",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "s3", "objects", "download"],
+                  "query": [
+                    { "key": "bucket", "value": "{{bucket}}" },
+                    { "key": "key", "value": "test/hello.txt" }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Head Object (Metadata)",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/s3/objects/metadata?bucket={{bucket}}&key=test/hello.txt",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "s3", "objects", "metadata"],
+                  "query": [
+                    { "key": "bucket", "value": "{{bucket}}" },
+                    { "key": "key", "value": "test/hello.txt" }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "List Objects",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/s3/objects/list?bucket={{bucket}}&prefix=&maxKeys=100",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "s3", "objects", "list"],
+                  "query": [
+                    { "key": "bucket", "value": "{{bucket}}" },
+                    { "key": "prefix", "value": "" },
+                    { "key": "maxKeys", "value": "100" }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Delete Object",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/s3/objects?bucket={{bucket}}&key=test/hello.txt",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "s3", "objects"],
+                  "query": [
+                    { "key": "bucket", "value": "{{bucket}}" },
+                    { "key": "key", "value": "test/hello.txt" }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Batch Delete Objects",
+              "request": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "body": {
+                  "mode": "raw",
+                  "raw": "[\"file1.txt\", \"file2.txt\"]"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/s3/objects/batch-delete?bucket={{bucket}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "s3", "objects", "batch-delete"],
+                  "query": [{ "key": "bucket", "value": "{{bucket}}" }]
+                }
+              }
+            },
+            {
+              "name": "Copy Object",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/s3/objects/copy?sourceBucket={{bucket}}&sourceKey=test/hello.txt&destBucket={{bucket}}&destKey=copy/hello.txt",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "s3", "objects", "copy"],
+                  "query": [
+                    { "key": "sourceBucket", "value": "{{bucket}}" },
+                    { "key": "sourceKey", "value": "test/hello.txt" },
+                    { "key": "destBucket", "value": "{{bucket}}" },
+                    { "key": "destKey", "value": "copy/hello.txt" }
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Versioning",
+          "item": [
+            {
+              "name": "Enable Versioning",
+              "request": {
+                "method": "PUT",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/s3/versioning/enable?bucket={{bucket}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "s3", "versioning", "enable"],
+                  "query": [{ "key": "bucket", "value": "{{bucket}}" }]
+                }
+              }
+            },
+            {
+              "name": "Suspend Versioning",
+              "request": {
+                "method": "PUT",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/s3/versioning/suspend?bucket={{bucket}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "s3", "versioning", "suspend"],
+                  "query": [{ "key": "bucket", "value": "{{bucket}}" }]
+                }
+              }
+            },
+            {
+              "name": "Get Versioning Status",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/s3/versioning/status?bucket={{bucket}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "s3", "versioning", "status"],
+                  "query": [{ "key": "bucket", "value": "{{bucket}}" }]
+                }
+              }
+            },
+            {
+              "name": "Upload Versioned Object",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    { "key": "bucket", "value": "{{bucket}}", "type": "text" },
+                    { "key": "key", "value": "versioned/doc.txt", "type": "text" },
+                    { "key": "file", "type": "file", "src": "" }
+                  ]
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/s3/versioning/upload",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "s3", "versioning", "upload"]
+                }
+              }
+            },
+            {
+              "name": "Download Specific Version",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/s3/versioning/download?bucket={{bucket}}&key=versioned/doc.txt&versionId=VERSION_ID",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "s3", "versioning", "download"],
+                  "query": [
+                    { "key": "bucket", "value": "{{bucket}}" },
+                    { "key": "key", "value": "versioned/doc.txt" },
+                    { "key": "versionId", "value": "VERSION_ID" }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "List Object Versions",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/s3/versioning/list?bucket={{bucket}}&prefix=versioned/",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "s3", "versioning", "list"],
+                  "query": [
+                    { "key": "bucket", "value": "{{bucket}}" },
+                    { "key": "prefix", "value": "versioned/" }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Delete Specific Version",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/s3/versioning?bucket={{bucket}}&key=versioned/doc.txt&versionId=VERSION_ID",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "s3", "versioning"],
+                  "query": [
+                    { "key": "bucket", "value": "{{bucket}}" },
+                    { "key": "key", "value": "versioned/doc.txt" },
+                    { "key": "versionId", "value": "VERSION_ID" }
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Presigned URLs",
+          "item": [
+            {
+              "name": "Generate Download URL",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/s3/presigned/download-url?bucket={{bucket}}&key=test/hello.txt&expirationMinutes=15",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "s3", "presigned", "download-url"],
+                  "query": [
+                    { "key": "bucket", "value": "{{bucket}}" },
+                    { "key": "key", "value": "test/hello.txt" },
+                    { "key": "expirationMinutes", "value": "15" }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Generate Upload URL",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/s3/presigned/upload-url?bucket={{bucket}}&key=uploads/new-file.txt&contentType=text/plain&expirationMinutes=15",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "s3", "presigned", "upload-url"],
+                  "query": [
+                    { "key": "bucket", "value": "{{bucket}}" },
+                    { "key": "key", "value": "uploads/new-file.txt" },
+                    { "key": "contentType", "value": "text/plain" },
+                    { "key": "expirationMinutes", "value": "15" }
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Multipart Upload",
+          "item": [
+            {
+              "name": "Initiate Multipart Upload",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/s3/multipart/initiate?bucket={{bucket}}&key=large-file.bin&contentType=application/octet-stream",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "s3", "multipart", "initiate"],
+                  "query": [
+                    { "key": "bucket", "value": "{{bucket}}" },
+                    { "key": "key", "value": "large-file.bin" },
+                    { "key": "contentType", "value": "application/octet-stream" }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Upload Part",
+              "request": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    { "key": "bucket", "value": "{{bucket}}", "type": "text" },
+                    { "key": "key", "value": "large-file.bin", "type": "text" },
+                    { "key": "uploadId", "value": "UPLOAD_ID", "type": "text" },
+                    { "key": "partNumber", "value": "1", "type": "text" },
+                    { "key": "part", "type": "file", "src": "" }
+                  ]
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/s3/multipart/upload-part",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "s3", "multipart", "upload-part"]
+                }
+              }
+            },
+            {
+              "name": "Complete Multipart Upload",
+              "request": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "body": {
+                  "mode": "raw",
+                  "raw": "[{\"partNumber\": \"1\", \"eTag\": \"ETAG_VALUE\"}]"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/s3/multipart/complete?bucket={{bucket}}&key=large-file.bin&uploadId=UPLOAD_ID",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "s3", "multipart", "complete"],
+                  "query": [
+                    { "key": "bucket", "value": "{{bucket}}" },
+                    { "key": "key", "value": "large-file.bin" },
+                    { "key": "uploadId", "value": "UPLOAD_ID" }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Abort Multipart Upload",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/s3/multipart/abort?bucket={{bucket}}&key=large-file.bin&uploadId=UPLOAD_ID",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "s3", "multipart", "abort"],
+                  "query": [
+                    { "key": "bucket", "value": "{{bucket}}" },
+                    { "key": "key", "value": "large-file.bin" },
+                    { "key": "uploadId", "value": "UPLOAD_ID" }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "List Multipart Uploads",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/s3/multipart/list?bucket={{bucket}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "s3", "multipart", "list"],
+                  "query": [{ "key": "bucket", "value": "{{bucket}}" }]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Website Hosting",
+          "item": [
+            {
+              "name": "Configure Website",
+              "request": {
+                "method": "PUT",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/s3/website/configure?bucket={{websiteBucket}}&indexDoc=index.html&errorDoc=error.html",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "s3", "website", "configure"],
+                  "query": [
+                    { "key": "bucket", "value": "{{websiteBucket}}" },
+                    { "key": "indexDoc", "value": "index.html" },
+                    { "key": "errorDoc", "value": "error.html" }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Get Website Config",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/s3/website/config?bucket={{websiteBucket}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "s3", "website", "config"],
+                  "query": [{ "key": "bucket", "value": "{{websiteBucket}}" }]
+                }
+              }
+            },
+            {
+              "name": "Deploy Website Files",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/s3/website/deploy?bucket={{websiteBucket}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "s3", "website", "deploy"],
+                  "query": [{ "key": "bucket", "value": "{{websiteBucket}}" }]
+                }
+              }
+            },
+            {
+              "name": "Delete Website Config",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/s3/website/config?bucket={{websiteBucket}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "s3", "website", "config"],
+                  "query": [{ "key": "bucket", "value": "{{websiteBucket}}" }]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Encryption",
+          "item": [
+            {
+              "name": "Configure Default Encryption",
+              "request": {
+                "method": "PUT",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/s3/encryption/configure?bucket={{bucket}}&algorithm=AES256",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "s3", "encryption", "configure"],
+                  "query": [
+                    { "key": "bucket", "value": "{{bucket}}" },
+                    { "key": "algorithm", "value": "AES256" }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Get Encryption Config",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/s3/encryption/config?bucket={{bucket}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "s3", "encryption", "config"],
+                  "query": [{ "key": "bucket", "value": "{{bucket}}" }]
+                }
+              }
+            },
+            {
+              "name": "Upload Encrypted Object",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    { "key": "bucket", "value": "{{bucket}}", "type": "text" },
+                    { "key": "key", "value": "encrypted/secret.txt", "type": "text" },
+                    { "key": "algorithm", "value": "AES256", "type": "text" },
+                    { "key": "file", "type": "file", "src": "" }
+                  ]
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/s3/encryption/upload",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "s3", "encryption", "upload"]
+                }
+              }
+            },
+            {
+              "name": "Get Object Encryption Info",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/s3/encryption/info?bucket={{bucket}}&key=encrypted/secret.txt",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "s3", "encryption", "info"],
+                  "query": [
+                    { "key": "bucket", "value": "{{bucket}}" },
+                    { "key": "key", "value": "encrypted/secret.txt" }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Delete Encryption Config",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/s3/encryption/config?bucket={{bucket}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "s3", "encryption", "config"],
+                  "query": [{ "key": "bucket", "value": "{{bucket}}" }]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Policies & ACLs",
+          "item": [
+            {
+              "name": "Set Bucket Policy",
+              "request": {
+                "method": "PUT",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Sid\": \"PublicRead\",\n      \"Effect\": \"Allow\",\n      \"Principal\": \"*\",\n      \"Action\": \"s3:GetObject\",\n      \"Resource\": \"arn:aws:s3:::{{bucket}}/public/*\"\n    }\n  ]\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/s3/policies/policy?bucket={{bucket}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "s3", "policies", "policy"],
+                  "query": [{ "key": "bucket", "value": "{{bucket}}" }]
+                }
+              }
+            },
+            {
+              "name": "Get Bucket Policy",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/s3/policies/policy?bucket={{bucket}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "s3", "policies", "policy"],
+                  "query": [{ "key": "bucket", "value": "{{bucket}}" }]
+                }
+              }
+            },
+            {
+              "name": "Delete Bucket Policy",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/s3/policies/policy?bucket={{bucket}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "s3", "policies", "policy"],
+                  "query": [{ "key": "bucket", "value": "{{bucket}}" }]
+                }
+              }
+            },
+            {
+              "name": "Set Bucket ACL",
+              "request": {
+                "method": "PUT",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/s3/policies/acl/bucket?bucket={{bucket}}&cannedAcl=private",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "s3", "policies", "acl", "bucket"],
+                  "query": [
+                    { "key": "bucket", "value": "{{bucket}}" },
+                    { "key": "cannedAcl", "value": "private" }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Get Bucket ACL",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/s3/policies/acl/bucket?bucket={{bucket}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "s3", "policies", "acl", "bucket"],
+                  "query": [{ "key": "bucket", "value": "{{bucket}}" }]
+                }
+              }
+            },
+            {
+              "name": "Set Object ACL",
+              "request": {
+                "method": "PUT",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/s3/policies/acl/object?bucket={{bucket}}&key=test/hello.txt&cannedAcl=public-read",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "s3", "policies", "acl", "object"],
+                  "query": [
+                    { "key": "bucket", "value": "{{bucket}}" },
+                    { "key": "key", "value": "test/hello.txt" },
+                    { "key": "cannedAcl", "value": "public-read" }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Set Public Access Block",
+              "request": {
+                "method": "PUT",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"blockPublicAcls\": true,\n  \"blockPublicPolicy\": true,\n  \"ignorePublicAcls\": true,\n  \"restrictPublicBuckets\": true\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/s3/policies/public-access-block?bucket={{bucket}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "s3", "policies", "public-access-block"],
+                  "query": [{ "key": "bucket", "value": "{{bucket}}" }]
+                }
+              }
+            },
+            {
+              "name": "Get Public Access Block",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/s3/policies/public-access-block?bucket={{bucket}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "s3", "policies", "public-access-block"],
+                  "query": [{ "key": "bucket", "value": "{{bucket}}" }]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Tagging",
+          "item": [
+            {
+              "name": "Set Bucket Tags",
+              "request": {
+                "method": "PUT",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"env\": \"local\",\n  \"poc\": \"s3-storage\",\n  \"team\": \"platform\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/s3/tags/bucket?bucket={{bucket}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "s3", "tags", "bucket"],
+                  "query": [{ "key": "bucket", "value": "{{bucket}}" }]
+                }
+              }
+            },
+            {
+              "name": "Get Bucket Tags",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/s3/tags/bucket?bucket={{bucket}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "s3", "tags", "bucket"],
+                  "query": [{ "key": "bucket", "value": "{{bucket}}" }]
+                }
+              }
+            },
+            {
+              "name": "Delete Bucket Tags",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/s3/tags/bucket?bucket={{bucket}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "s3", "tags", "bucket"],
+                  "query": [{ "key": "bucket", "value": "{{bucket}}" }]
+                }
+              }
+            },
+            {
+              "name": "Set Object Tags",
+              "request": {
+                "method": "PUT",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"classification\": \"internal\",\n  \"retention\": \"30d\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/s3/tags/object?bucket={{bucket}}&key=test/hello.txt",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "s3", "tags", "object"],
+                  "query": [
+                    { "key": "bucket", "value": "{{bucket}}" },
+                    { "key": "key", "value": "test/hello.txt" }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Get Object Tags",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/s3/tags/object?bucket={{bucket}}&key=test/hello.txt",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "s3", "tags", "object"],
+                  "query": [
+                    { "key": "bucket", "value": "{{bucket}}" },
+                    { "key": "key", "value": "test/hello.txt" }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Delete Object Tags",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/s3/tags/object?bucket={{bucket}}&key=test/hello.txt",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "s3", "tags", "object"],
+                  "query": [
+                    { "key": "bucket", "value": "{{bucket}}" },
+                    { "key": "key", "value": "test/hello.txt" }
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Lifecycle Rules",
+          "item": [
+            {
+              "name": "Set Lifecycle Rules",
+              "request": {
+                "method": "PUT",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "body": {
+                  "mode": "raw",
+                  "raw": "[\n  {\n    \"id\": \"expire-temp\",\n    \"prefix\": \"temp/\",\n    \"expirationDays\": 7,\n    \"transitionStorageClass\": \"\",\n    \"transitionDays\": 0\n  },\n  {\n    \"id\": \"archive-old\",\n    \"prefix\": \"archive/\",\n    \"expirationDays\": 365,\n    \"transitionStorageClass\": \"GLACIER\",\n    \"transitionDays\": 30\n  }\n]"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/s3/lifecycle/rules?bucket={{bucket}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "s3", "lifecycle", "rules"],
+                  "query": [{ "key": "bucket", "value": "{{bucket}}" }]
+                }
+              }
+            },
+            {
+              "name": "Get Lifecycle Rules",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/s3/lifecycle/rules?bucket={{bucket}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "s3", "lifecycle", "rules"],
+                  "query": [{ "key": "bucket", "value": "{{bucket}}" }]
+                }
+              }
+            },
+            {
+              "name": "Delete Lifecycle Rules",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/s3/lifecycle/rules?bucket={{bucket}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "s3", "lifecycle", "rules"],
+                  "query": [{ "key": "bucket", "value": "{{bucket}}" }]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "CORS",
+          "item": [
+            {
+              "name": "Set CORS Config",
+              "request": {
+                "method": "PUT",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "body": {
+                  "mode": "raw",
+                  "raw": "[\n  {\n    \"allowedOrigins\": [\"http://localhost:3000\"],\n    \"allowedMethods\": [\"GET\", \"PUT\", \"POST\"],\n    \"allowedHeaders\": [\"*\"],\n    \"exposeHeaders\": [\"ETag\"],\n    \"maxAgeSeconds\": 3600\n  }\n]"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/s3/cors/config?bucket={{bucket}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "s3", "cors", "config"],
+                  "query": [{ "key": "bucket", "value": "{{bucket}}" }]
+                }
+              }
+            },
+            {
+              "name": "Get CORS Config",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/s3/cors/config?bucket={{bucket}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "s3", "cors", "config"],
+                  "query": [{ "key": "bucket", "value": "{{bucket}}" }]
+                }
+              }
+            },
+            {
+              "name": "Delete CORS Config",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/s3/cors/config?bucket={{bucket}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "s3", "cors", "config"],
+                  "query": [{ "key": "bucket", "value": "{{bucket}}" }]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Event Notifications",
+          "item": [
+            {
+              "name": "Configure SQS Notification",
+              "request": {
+                "method": "PUT",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/s3/notifications/sqs?bucket={{bucket}}&queueArn={{sqsQueueArn}}&events=s3:ObjectCreated:*&filterPrefix=uploads/",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "s3", "notifications", "sqs"],
+                  "query": [
+                    { "key": "bucket", "value": "{{bucket}}" },
+                    { "key": "queueArn", "value": "{{sqsQueueArn}}" },
+                    { "key": "events", "value": "s3:ObjectCreated:*" },
+                    { "key": "filterPrefix", "value": "uploads/" }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Configure SNS Notification",
+              "request": {
+                "method": "PUT",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/s3/notifications/sns?bucket={{bucket}}&topicArn={{snsTopicArn}}&events=s3:ObjectRemoved:*&filterPrefix=uploads/",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "s3", "notifications", "sns"],
+                  "query": [
+                    { "key": "bucket", "value": "{{bucket}}" },
+                    { "key": "topicArn", "value": "{{snsTopicArn}}" },
+                    { "key": "events", "value": "s3:ObjectRemoved:*" },
+                    { "key": "filterPrefix", "value": "uploads/" }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Get Notification Config",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/s3/notifications/config?bucket={{bucket}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "s3", "notifications", "config"],
+                  "query": [{ "key": "bucket", "value": "{{bucket}}" }]
+                }
+              }
+            },
+            {
+              "name": "Delete Notification Config",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/s3/notifications/config?bucket={{bucket}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "s3", "notifications", "config"],
+                  "query": [{ "key": "bucket", "value": "{{bucket}}" }]
+                }
+              }
+            },
+            {
+              "name": "Poll SQS Messages",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/s3/notifications/poll-sqs?queueUrl={{sqsQueueUrl}}&maxMessages=10",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "s3", "notifications", "poll-sqs"],
+                  "query": [
+                    { "key": "queueUrl", "value": "{{sqsQueueUrl}}" },
+                    { "key": "maxMessages", "value": "10" }
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Access Logging",
+          "item": [
+            {
+              "name": "Configure Access Logging",
+              "request": {
+                "method": "PUT",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/s3/logging/configure?sourceBucket={{bucket}}&targetBucket={{logsBucket}}&targetPrefix=access-logs/",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "s3", "logging", "configure"],
+                  "query": [
+                    { "key": "sourceBucket", "value": "{{bucket}}" },
+                    { "key": "targetBucket", "value": "{{logsBucket}}" },
+                    { "key": "targetPrefix", "value": "access-logs/" }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Get Logging Config",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/s3/logging/config?bucket={{bucket}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "s3", "logging", "config"],
+                  "query": [{ "key": "bucket", "value": "{{bucket}}" }]
+                }
+              }
+            },
+            {
+              "name": "Delete Logging Config",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/s3/logging/config?bucket={{bucket}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "s3", "logging", "config"],
+                  "query": [{ "key": "bucket", "value": "{{bucket}}" }]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

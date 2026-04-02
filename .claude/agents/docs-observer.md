@@ -181,6 +181,8 @@ import { NewPage } from './pages/NewPage'
 },
 ```
 
+**5. Update Postman Collection** — If the new/changed page is a POC with REST endpoints, update the Postman collection (see "Postman Collection" section below).
+
 ### Available Components (Full Inventory)
 
 #### Content Components — use these to build page content
@@ -261,6 +263,74 @@ When a POC or module is removed:
 4. Remove the search entry from `CommandPalette.tsx` `searchIndex`
 5. Remove any diagram components specific to that page
 6. Update cross-references in other pages
+7. Remove the POC folder from the Postman collection JSON
+
+### Postman Collection (REQUIRED for POCs with REST endpoints)
+
+The project maintains a single Postman collection at `postman/java-llm-pocs.postman_collection.json`. This collection is the source of truth for testing all POC endpoints.
+
+**When to update:**
+- A new POC with REST controllers is created → add a new folder
+- Endpoints are added/changed/removed in an existing POC → update the folder
+- A POC is removed → delete the folder from the collection
+
+**Collection structure:**
+```json
+{
+  "info": { "name": "java-llm-pocs", "schema": "..." },
+  "variable": [ /* baseUrl, bucket names, ARNs, queue URLs */ ],
+  "item": [
+    {
+      "name": "poc-s3-storage",     // ← one top-level folder per POC
+      "item": [
+        { "name": "Bucket Operations", "item": [ /* requests */ ] },
+        { "name": "Object CRUD",       "item": [ /* requests */ ] },
+        // ... one sub-folder per feature/controller
+      ]
+    },
+    {
+      "name": "poc-sqs-messaging",  // ← future POCs get their own folder
+      "item": [ /* ... */ ]
+    }
+  ]
+}
+```
+
+**Rules for adding/updating requests:**
+1. **One top-level folder per POC** — named exactly like the POC directory (e.g., `poc-s3-storage`)
+2. **One sub-folder per controller/feature** — named descriptively (e.g., "Versioning", "Presigned URLs")
+3. **Use collection variables** — never hardcode `localhost:8080` or bucket names; use `{{baseUrl}}`, `{{bucket}}`, etc.
+4. **Add new variables** when a POC introduces new infrastructure (queue URLs, topic ARNs, new bucket names)
+5. **Include request bodies** — for POST/PUT requests, include realistic example payloads (JSON body, formdata, etc.)
+6. **Schema must be valid** — `https://schema.getpostman.com/json/collection/v2.1.0/collection.json`
+7. **Read the file first** — always read the current collection JSON before editing to avoid overwriting other POCs
+8. **Preserve existing folders** — when adding a new POC folder, keep all existing folders intact
+
+**Request template:**
+```json
+{
+  "name": "Operation Name",
+  "request": {
+    "method": "GET|POST|PUT|DELETE",
+    "header": [/* Content-Type if needed */],
+    "body": { /* if needed: mode + raw/formdata */ },
+    "url": {
+      "raw": "{{baseUrl}}/api/path?param=value",
+      "host": ["{{baseUrl}}"],
+      "path": ["api", "path"],
+      "query": [{ "key": "param", "value": "value" }]
+    }
+  }
+}
+```
+
+**Validation before committing:**
+- [ ] Every controller endpoint has a corresponding request in the collection
+- [ ] All URLs use `{{baseUrl}}` variable, not hardcoded host
+- [ ] All bucket/queue/topic references use collection variables
+- [ ] JSON is valid (no trailing commas, proper escaping)
+- [ ] New POC has its own top-level folder
+- [ ] Sub-folders match the controller organization
 
 ### CSS Architecture
 
@@ -328,6 +398,7 @@ The styles are split into focused files:
 - [ ] Heading anchors em todos os h2 com ids correspondentes aos TOCItems
 - [ ] Breadcrumbs presente em todas as paginas (exceto Home)
 - [ ] Footer presente em todas as paginas (incluindo Home)
+- [ ] Postman collection atualizada se a POC tem endpoints REST (postman/java-llm-pocs.postman_collection.json)
 
 ### Sanitizacao de codigo-exemplo:
 
@@ -355,8 +426,8 @@ Ao copiar trechos do projeto para a documentacao:
 2. **Read existing docs-site**: Check `navigation.ts`, `App.tsx`, `CommandPalette.tsx` searchIndex, and existing pages to understand current coverage
 3. **Detect gaps**: Compare project state with documented pages
 4. **Plan updates**: List what pages need to be added, updated, or removed
-5. **Execute**: Create/edit TSX page files, update routes, navigation, and searchIndex
-6. **Validate**: Verify imports resolve, routes match navigation, TOC ids match h2 ids, searchIndex covers all pages, heading-anchors on all h2s, Breadcrumbs and Footer in all pages
+5. **Execute**: Create/edit TSX page files, update routes, navigation, searchIndex, and Postman collection (if POC has endpoints)
+6. **Validate**: Verify imports resolve, routes match navigation, TOC ids match h2 ids, searchIndex covers all pages, heading-anchors on all h2s, Breadcrumbs and Footer in all pages, Postman collection covers all endpoints
 7. **Optionally simplify**: If you created or heavily edited a page, use the `simplify` skill to review code quality
 8. **Commit**: Use format `docs(site): <descriptive message>`
 9. **Report**: Briefly summarize what was updated
@@ -374,6 +445,8 @@ Ao copiar trechos do projeto para a documentacao:
 - No broken cross-references between pages
 - Code examples in docs match actual project code
 - Security guardrails checklist passes (no credentials, no absolute paths, no personal info)
+- Postman collection has a folder for every POC with REST endpoints, with all controllers covered
+- Postman collection JSON is valid and uses collection variables (not hardcoded values)
 
 ### What to Document for Each POC
 

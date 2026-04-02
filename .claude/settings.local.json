@@ -34,7 +34,10 @@
       "Bash(mkdir -p .mvn/wrapper)",
       "Bash(chmod +x mvnw)",
       "Bash(./mvnw test-compile:*)",
-      "Bash(break)"
+      "Bash(break)",
+      "Bash(./mvnw spring-boot:run)",
+      "Bash(python3 -m json.tool)",
+      "Bash(ls C:/Users/Administrador/Workspace/nameless/postman* C:/Users/Administrador/Workspace/nameless/*.postman*)"
     ]
   }
 }
