@@ -8,6 +8,7 @@
   min-height: 100vh;
 }
 
+
 .app-header {
   grid-area: header;
   position: sticky;
@@ -37,6 +38,14 @@
 
 .app-header__logo span {
   color: var(--color-primary);
+}
+
+.app-header__center {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  max-width: 400px;
+  margin: 0 var(--space-4);
 }
 
 .app-header__right {
@@ -85,6 +94,18 @@
   max-width: calc(var(--content-max-width) + var(--space-12) * 2);
   width: 100%;
   min-width: 0;
+  animation: contentEnter 300ms ease;
+}
+
+@keyframes contentEnter {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .app-content > :first-child {

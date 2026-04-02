@@ -3,17 +3,22 @@ import { Table } from '../components/Table'
 import { Callout } from '../components/Callout'
 import { CodeBlock } from '../components/CodeBlock'
 import { TOC } from '../components/TOC'
+import { Footer } from '../components/Footer'
 import type { TOCItem } from '../components/TOC'
 
 const tocItems: TOCItem[] = [
-  { id: 'sections', title: 'Seções' },
+  { id: 'sections', title: 'Secoes' },
   { id: 'stack', title: 'Stack' },
-  { id: 'setup', title: 'Setup Rápido' },
+  { id: 'setup', title: 'Setup Rapido' },
   { id: 'pocs', title: 'POCs Planejadas' },
-  { id: 'prereqs', title: 'Pré-requisitos' },
+  { id: 'prereqs', title: 'Pre-requisitos' },
 ]
 
-export function Home() {
+interface HomeProps {
+  onOpenSearch: () => void
+}
+
+export function Home({ onOpenSearch }: HomeProps) {
   return (
     <>
       <main className="app-content">
@@ -30,9 +35,28 @@ export function Home() {
             <span className="stack-pill">Terraform</span>
             <span className="stack-pill">Docker</span>
           </div>
+          <div className="hero__actions">
+            <Link to="/claude-code/basics" className="hero__btn hero__btn--primary">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <polyline points="4 17 10 11 4 5" />
+                <line x1="12" y1="19" x2="20" y2="19" />
+              </svg>
+              Comecar
+            </Link>
+            <button className="hero__btn hero__btn--secondary" onClick={onOpenSearch}>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <circle cx="11" cy="11" r="8" />
+                <line x1="21" y1="21" x2="16.65" y2="16.65" />
+              </svg>
+              Buscar <kbd>Ctrl K</kbd>
+            </button>
+          </div>
         </div>
 
-        <h2 id="sections">Seções</h2>
+        <h2 id="sections" className="heading-anchor">
+          <a href="#sections" className="heading-anchor__link" aria-hidden="true">#</a>
+          Secoes
+        </h2>
         <div className="card-grid">
           <Link to="/claude-code/basics" className="card">
             <svg className="card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
@@ -41,7 +65,7 @@ export function Home() {
             </svg>
             <div className="card__title">Claude Code</div>
             <p className="card__description">
-              CLI da Anthropic — comandos, hooks, slash commands e boas práticas.
+              CLI da Anthropic — comandos, hooks, slash commands e boas praticas.
             </p>
           </Link>
           <Link to="/localstack/concepts" className="card">
@@ -57,22 +81,28 @@ export function Home() {
           </Link>
         </div>
 
-        <h2 id="stack">Stack</h2>
+        <h2 id="stack" className="heading-anchor">
+          <a href="#stack" className="heading-anchor__link" aria-hidden="true">#</a>
+          Stack
+        </h2>
         <ul>
           <li><strong>Java 21</strong> + <strong>Spring Boot 3.4</strong> + Maven Wrapper</li>
           <li><strong>AWS SDK for Java v2</strong> (<code>software.amazon.awssdk</code>)</li>
           <li><strong>LocalStack Community</strong> via Docker Compose</li>
           <li><strong>Terraform 1.x</strong> → <code>http://localhost:4566</code></li>
-          <li><strong>Spring Cloud AWS 3.x</strong> quando aplicável</li>
+          <li><strong>Spring Cloud AWS 3.x</strong> quando aplicavel</li>
         </ul>
 
-        <h2 id="setup">Setup Rápido</h2>
+        <h2 id="setup" className="heading-anchor">
+          <a href="#setup" className="heading-anchor__link" aria-hidden="true">#</a>
+          Setup Rapido
+        </h2>
 
         <h3>1. Subir o LocalStack</h3>
         <CodeBlock language="bash" code={`cd infra
 docker-compose up -d
 
-# Verificar saúde (~30s)
+# Verificar saude (~30s)
 curl http://localhost:4566/_localstack/health`} />
 
         <h3>2. Provisionar com Terraform</h3>
@@ -85,9 +115,12 @@ terraform output`} />
         <CodeBlock language="bash" code={`cd pocs/poc-s3-storage
 ./mvnw spring-boot:run`} />
 
-        <h2 id="pocs">POCs Planejadas</h2>
+        <h2 id="pocs" className="heading-anchor">
+          <a href="#pocs" className="heading-anchor__link" aria-hidden="true">#</a>
+          POCs Planejadas
+        </h2>
         <Table
-          headers={['POC', 'Serviços AWS', 'Status']}
+          headers={['POC', 'Servicos AWS', 'Status']}
           rows={[
             [<code>poc-s3-storage</code>, 'S3', <span className="status-badge status-badge--soon">Em breve</span>],
             [<code>poc-sqs-messaging</code>, 'SQS', <span className="status-badge status-badge--soon">Em breve</span>],
@@ -97,9 +130,12 @@ terraform output`} />
           ]}
         />
 
-        <h2 id="prereqs">Pré-requisitos</h2>
+        <h2 id="prereqs" className="heading-anchor">
+          <a href="#prereqs" className="heading-anchor__link" aria-hidden="true">#</a>
+          Pre-requisitos
+        </h2>
         <Table
-          headers={['Ferramenta', 'Versão mínima', 'Verificar']}
+          headers={['Ferramenta', 'Versao minima', 'Verificar']}
           rows={[
             ['Java', '21', <code>java --version</code>],
             ['Docker', '20+', <code>docker --version</code>],
@@ -108,8 +144,10 @@ terraform output`} />
           ]}
         />
         <Callout type="tip" title="Maven">
-          <p>Não precisa instalar globalmente — cada POC usa o Maven Wrapper (<code>./mvnw</code>).</p>
+          <p>Nao precisa instalar globalmente — cada POC usa o Maven Wrapper (<code>./mvnw</code>).</p>
         </Callout>
+
+        <Footer />
       </main>
       <TOC items={tocItems} />
     </>

@@ -34,6 +34,18 @@
 
 .nav-section__items {
   overflow: hidden;
+  animation: expandIn 200ms ease;
+}
+
+@keyframes expandIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .nav-link {
@@ -320,23 +332,7 @@
   color: var(--color-tip);
 }
 
-/* ===== Hero Section ===== */
-.hero {
-  text-align: center;
-  padding: var(--space-12) 0 var(--space-8);
-}
-
-.hero h1 {
-  font-size: var(--font-size-3xl);
-  margin-bottom: var(--space-4);
-}
-
-.hero__subtitle {
-  font-size: var(--font-size-lg);
-  color: var(--color-on-surface-variant);
-  max-width: 600px;
-  margin: 0 auto var(--space-8);
-}
+/* ===== Hero Section — moved to new-features.css ===== */
 
 /* ===== Stack Pills ===== */
 .stack-pills {
@@ -358,6 +354,13 @@
   font-weight: var(--font-weight-medium);
   color: var(--color-on-surface);
   background-color: var(--color-surface);
+  transition: all var(--transition-fast);
+}
+
+.stack-pill:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+  background-color: var(--color-primary-container);
 }
 
 /* ===== Section Header ===== */

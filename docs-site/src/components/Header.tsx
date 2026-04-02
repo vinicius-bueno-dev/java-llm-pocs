@@ -4,9 +4,10 @@ interface HeaderProps {
   theme: 'light' | 'dark'
   onToggleTheme: () => void
   onToggleMenu: () => void
+  onOpenSearch: () => void
 }
 
-export function Header({ theme, onToggleTheme, onToggleMenu }: HeaderProps) {
+export function Header({ theme, onToggleTheme, onToggleMenu, onOpenSearch }: HeaderProps) {
   return (
     <header className="app-header">
       <div className="app-header__left">
@@ -20,6 +21,16 @@ export function Header({ theme, onToggleTheme, onToggleMenu }: HeaderProps) {
         <span className="app-header__logo">
           java-llm<span>-pocs</span>
         </span>
+      </div>
+      <div className="app-header__center">
+        <button className="search-trigger" onClick={onOpenSearch} aria-label="Buscar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <circle cx="11" cy="11" r="8" />
+            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+          </svg>
+          <span className="search-trigger__text">Buscar...</span>
+          <span className="search-trigger__kbd">Ctrl K</span>
+        </button>
       </div>
       <div className="app-header__right">
         <a
