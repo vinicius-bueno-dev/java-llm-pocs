@@ -39,3 +39,7 @@ logs/
 
 # MkDocs
 site/
+
+# Docs site (React)
+docs-site/node_modules/
+docs-site/dist/

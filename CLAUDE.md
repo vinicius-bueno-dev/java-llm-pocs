@@ -35,8 +35,9 @@ nameless/
 │       ├── providers.tf
 │       └── modules/       # s3, sqs, dynamodb, lambda
 ├── docs/
-│   ├── claude-code/       # Guias de estudo Claude Code
-│   └── localstack/        # Guias de estudo LocalStack
+│   ├── claude-code/       # Guias de estudo Claude Code (markdown source)
+│   └── localstack/        # Guias de estudo LocalStack (markdown source)
+├── docs-site/             # Site React da documentação (Vite + TypeScript)
 └── pocs/
     ├── poc-s3-storage/
     ├── poc-sqs-messaging/
