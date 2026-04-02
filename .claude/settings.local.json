@@ -25,7 +25,8 @@
       "Bash(npm create:*)",
       "Bash(npm install:*)",
       "Bash(npx tsc:*)",
-      "Bash(npm run:*)"
+      "Bash(npm run:*)",
+      "Bash(npx claude-code-templates@latest:*)"
     ]
   }
 }
