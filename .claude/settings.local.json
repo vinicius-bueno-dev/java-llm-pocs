@@ -26,7 +26,15 @@
       "Bash(npm install:*)",
       "Bash(npx tsc:*)",
       "Bash(npm run:*)",
-      "Bash(npx claude-code-templates@latest:*)"
+      "Bash(npx claude-code-templates@latest:*)",
+      "Bash(grep:*)",
+      "Bash(./mvnw compile:*)",
+      "Bash(ls C:/Users/Administrador/Workspace/nameless/mvnw*)",
+      "Bash(mvn --version)",
+      "Bash(mkdir -p .mvn/wrapper)",
+      "Bash(chmod +x mvnw)",
+      "Bash(./mvnw test-compile:*)",
+      "Bash(break)"
     ]
   }
 }

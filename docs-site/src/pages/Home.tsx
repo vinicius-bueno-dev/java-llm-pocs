@@ -122,7 +122,7 @@ terraform output`} />
         <Table
           headers={['POC', 'Servicos AWS', 'Status']}
           rows={[
-            [<code>poc-s3-storage</code>, 'S3', <span className="status-badge status-badge--soon">Em breve</span>],
+            [<code>poc-s3-storage</code>, 'S3', <span className="status-badge status-badge--done">Completo</span>],
             [<code>poc-sqs-messaging</code>, 'SQS', <span className="status-badge status-badge--soon">Em breve</span>],
             [<code>poc-dynamodb-crud</code>, 'DynamoDB', <span className="status-badge status-badge--soon">Em breve</span>],
             [<code>poc-lambda-java</code>, 'Lambda + S3', <span className="status-badge status-badge--soon">Em breve</span>],

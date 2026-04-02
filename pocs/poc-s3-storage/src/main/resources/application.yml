@@ -1,0 +1,20 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: poc-s3-storage
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
+
+aws:
+  region: us-east-1
+  endpoint: http://localhost:4566
+  access-key: test
+  secret-key: test
+  s3:
+    bucket-name: nameless-local-poc-storage
+    logs-bucket-name: nameless-local-poc-logs
+    website-bucket-name: nameless-local-poc-website

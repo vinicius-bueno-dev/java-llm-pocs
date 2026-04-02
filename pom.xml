@@ -21,7 +21,7 @@
 
     <modules>
         <!-- POCs adicionadas aqui conforme criadas -->
-        <!-- <module>pocs/poc-s3-storage</module> -->
+        <module>pocs/poc-s3-storage</module>
     </modules>
 
     <properties>

@@ -58,6 +58,12 @@ const searchIndex: SearchEntry[] = [
     path: '/#prereqs',
     keywords: ['prerequisitos', 'java', 'docker', 'terraform', 'git', 'versao'],
   },
+  {
+    title: 'POC S3 Storage',
+    section: 'POCs',
+    path: '/pocs/s3-storage',
+    keywords: ['s3', 'storage', 'bucket', 'upload', 'download', 'presigned', 'versioning', 'multipart', 'encryption', 'cors', 'lifecycle', 'notification', 'tagging', 'acl', 'policy', 'website', 'poc', 'crud'],
+  },
 ]
 
 function fuzzyMatch(query: string, entry: SearchEntry): number {
