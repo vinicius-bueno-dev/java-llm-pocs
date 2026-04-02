@@ -1,0 +1,40 @@
+version: "3.8"
+
+services:
+  localstack:
+    image: localstack/localstack:4.3
+    container_name: localstack
+    ports:
+      - "4566:4566"       # Gateway unificado (todos os serviços)
+      - "4510-4559:4510-4559"  # Range de portas para serviços específicos
+    environment:
+      # Serviços que queremos habilitar
+      - SERVICES=s3,sqs,sns,dynamodb,lambda,apigateway,iam,ssm,secretsmanager,cloudwatch,events,kinesis,stepfunctions,logs
+      # Configuração geral
+      - DEBUG=0
+      - DEFAULT_REGION=us-east-1
+      - DATA_DIR=/var/lib/localstack/data
+      # Lambda: usar executor Docker-in-Docker para Java
+      - LAMBDA_EXECUTOR=docker
+      - LAMBDA_DOCKER_NETWORK=localstack_net
+      - DOCKER_HOST=unix:///var/run/docker.sock
+    volumes:
+      - localstack_data:/var/lib/localstack
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - localstack_net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4566/_localstack/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+volumes:
+  localstack_data:
+    driver: local
+
+networks:
+  localstack_net:
+    name: localstack_net
+    driver: bridge
