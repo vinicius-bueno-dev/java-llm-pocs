@@ -28,6 +28,12 @@ export const navigation: NavSection[] = [
       { title: 'Terraform + LocalStack', path: '/localstack/terraform' },
     ],
   },
+  {
+    title: 'POCs',
+    items: [
+      { title: 'Visão Geral', path: '/#pocs' },
+    ],
+  },
 ]
 
 export const flatNav: NavItem[] = navigation.flatMap((s) => s.items)

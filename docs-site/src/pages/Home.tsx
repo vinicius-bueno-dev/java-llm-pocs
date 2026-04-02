@@ -24,7 +24,7 @@ export function Home() {
           </p>
           <div className="stack-pills">
             <span className="stack-pill">Java 21</span>
-            <span className="stack-pill">Spring Boot 3.x</span>
+            <span className="stack-pill">Spring Boot 3.4</span>
             <span className="stack-pill">AWS SDK v2</span>
             <span className="stack-pill">LocalStack</span>
             <span className="stack-pill">Terraform</span>
@@ -59,7 +59,7 @@ export function Home() {
 
         <h2 id="stack">Stack</h2>
         <ul>
-          <li><strong>Java 21</strong> + <strong>Spring Boot 3.x</strong> + Maven Wrapper</li>
+          <li><strong>Java 21</strong> + <strong>Spring Boot 3.4</strong> + Maven Wrapper</li>
           <li><strong>AWS SDK for Java v2</strong> (<code>software.amazon.awssdk</code>)</li>
           <li><strong>LocalStack Community</strong> via Docker Compose</li>
           <li><strong>Terraform 1.x</strong> → <code>http://localhost:4566</code></li>

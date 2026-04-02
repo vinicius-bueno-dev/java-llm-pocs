@@ -59,4 +59,6 @@ Hierarquia de CLAUDE.md:
 | `Ctrl+D` | Encerra a sessão |
 | `↑` / `↓` | Navega no histórico de mensagens |
 
-## Próximo: [02 — Hooks](./02-hooks.md)
+## Próximo
+
+> O guia de Hooks será adicionado em breve.

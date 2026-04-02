@@ -32,8 +32,8 @@ export function TerraformLocalStack() {
         <h2 id="provider">Configuração do Provider</h2>
         <CodeBlock language="hcl" title="providers.tf" code={`provider "aws" {
   region                      = "us-east-1"
-  access_key                  = "test"
-  secret_key                  = "test"
+  access_key                  = "test"   # fake — LocalStack aceita qualquer valor
+  secret_key                  = "test"   # fake — NÃO use credenciais reais aqui
   skip_credentials_validation = true
   skip_metadata_api_check     = true
   skip_requesting_account_id  = true

@@ -78,8 +78,8 @@ aws --endpoint-url=http://localhost:4566 sqs list-queues`} />
         <h2 id="awscli">AWS CLI + LocalStack</h2>
         <p>Configure um profile dedicado:</p>
         <CodeBlock language="bash" title="~/.aws/credentials" code={`[localstack]
-aws_access_key_id = test
-aws_secret_access_key = test`} />
+aws_access_key_id = test       # fake — LocalStack aceita qualquer valor
+aws_secret_access_key = test   # fake — NÃO use credenciais reais aqui`} />
 
         <CodeBlock language="bash" title="~/.aws/config" code={`[profile localstack]
 region = us-east-1
