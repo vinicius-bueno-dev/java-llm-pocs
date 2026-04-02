@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+         <loc>https://vinicius-bueno-dev.github.io/java-llm-pocs/</loc>
+         <lastmod>2026-04-02</lastmod>
+    </url>
+    <url>
+         <loc>https://vinicius-bueno-dev.github.io/java-llm-pocs/claude-code/01-basics/</loc>
+         <lastmod>2026-04-02</lastmod>
+    </url>
+    <url>
+         <loc>https://vinicius-bueno-dev.github.io/java-llm-pocs/localstack/01-concepts/</loc>
+         <lastmod>2026-04-02</lastmod>
+    </url>
+    <url>
+         <loc>https://vinicius-bueno-dev.github.io/java-llm-pocs/localstack/02-terraform-localstack/</loc>
+         <lastmod>2026-04-02</lastmod>
+    </url>
+</urlset>
