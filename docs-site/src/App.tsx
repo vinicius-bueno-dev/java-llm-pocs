@@ -11,6 +11,7 @@ import { ClaudeCodeBasics } from './pages/ClaudeCodeBasics'
 import { LocalStackConcepts } from './pages/LocalStackConcepts'
 import { TerraformLocalStack } from './pages/TerraformLocalStack'
 import { PocS3Storage } from './pages/PocS3Storage'
+import { Roadmap } from './pages/Roadmap'
 
 export function App() {
   const { theme, toggle } = useTheme()
@@ -55,6 +56,7 @@ export function App() {
         <Route path="/localstack/concepts" element={<LocalStackConcepts />} />
         <Route path="/localstack/terraform" element={<TerraformLocalStack />} />
         <Route path="/pocs/s3-storage" element={<PocS3Storage />} />
+        <Route path="/pocs/roadmap" element={<Roadmap />} />
       </Routes>
       <CommandPalette open={paletteOpen} onClose={() => setPaletteOpen(false)} />
       <BackToTop />

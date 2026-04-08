@@ -32,6 +32,7 @@ export const navigation: NavSection[] = [
     title: 'POCs',
     items: [
       { title: 'Visão Geral', path: '/#pocs' },
+      { title: 'Roadmap', path: '/pocs/roadmap' },
       { title: 'S3 Storage', path: '/pocs/s3-storage' },
     ],
   },

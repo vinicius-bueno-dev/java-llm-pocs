@@ -59,6 +59,12 @@ const searchIndex: SearchEntry[] = [
     keywords: ['prerequisitos', 'java', 'docker', 'terraform', 'git', 'versao'],
   },
   {
+    title: 'Roadmap de Servicos AWS',
+    section: 'POCs',
+    path: '/pocs/roadmap',
+    keywords: ['roadmap', 'servicos', 'aws', 'planejamento', 'progresso', 's3', 'sqs', 'dynamodb', 'lambda', 'sns', 'kinesis', 'eventbridge', 'cloudwatch', 'secrets', 'iam', 'kms', 'api gateway', 'step functions', 'elasticache', 'cloudfront', 'ses'],
+  },
+  {
     title: 'POC S3 Storage',
     section: 'POCs',
     path: '/pocs/s3-storage',
