@@ -11,3 +11,10 @@ module "s3" {
   project_name = var.project_name
   environment  = var.environment
 }
+
+# --- POC 2: SQS ---
+module "sqs" {
+  source       = "./modules/sqs"
+  project_name = var.project_name
+  environment  = var.environment
+}

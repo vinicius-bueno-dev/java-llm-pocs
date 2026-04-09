@@ -65,6 +65,12 @@ const searchIndex: SearchEntry[] = [
     keywords: ['roadmap', 'servicos', 'aws', 'planejamento', 'progresso', 's3', 'sqs', 'dynamodb', 'lambda', 'sns', 'kinesis', 'eventbridge', 'cloudwatch', 'secrets', 'iam', 'kms', 'api gateway', 'step functions', 'elasticache', 'cloudfront', 'ses'],
   },
   {
+    title: 'POC SQS Messaging',
+    section: 'POCs',
+    path: '/pocs/sqs-messaging',
+    keywords: ['sqs', 'messaging', 'queue', 'fifo', 'dead-letter', 'dlq', 'delay', 'batch', 'producer', 'consumer', 'visibility', 'long polling', 'redrive', 'deduplication', 'poc'],
+  },
+  {
     title: 'POC S3 Storage',
     section: 'POCs',
     path: '/pocs/s3-storage',

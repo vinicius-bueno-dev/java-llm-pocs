@@ -12,6 +12,7 @@ import { LocalStackConcepts } from './pages/LocalStackConcepts'
 import { TerraformLocalStack } from './pages/TerraformLocalStack'
 import { PocS3Storage } from './pages/PocS3Storage'
 import { Roadmap } from './pages/Roadmap'
+import { PocSqsMessaging } from './pages/PocSqsMessaging'
 
 export function App() {
   const { theme, toggle } = useTheme()
@@ -57,6 +58,7 @@ export function App() {
         <Route path="/localstack/terraform" element={<TerraformLocalStack />} />
         <Route path="/pocs/s3-storage" element={<PocS3Storage />} />
         <Route path="/pocs/roadmap" element={<Roadmap />} />
+        <Route path="/pocs/sqs-messaging" element={<PocSqsMessaging />} />
       </Routes>
       <CommandPalette open={paletteOpen} onClose={() => setPaletteOpen(false)} />
       <BackToTop />

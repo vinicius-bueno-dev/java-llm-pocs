@@ -28,6 +28,11 @@ output "website_endpoint" {
   value       = aws_s3_bucket_website_configuration.website_config.website_endpoint
 }
 
+output "object_lock_bucket_name" {
+  description = "Nome do bucket com Object Lock habilitado"
+  value       = aws_s3_bucket.object_lock_bucket.id
+}
+
 output "sqs_queue_url" {
   description = "URL da fila SQS para eventos S3"
   value       = aws_sqs_queue.s3_event_queue.url

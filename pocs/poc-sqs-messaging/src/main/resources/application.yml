@@ -1,0 +1,18 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: poc-sqs-messaging
+
+aws:
+  region: us-east-1
+  endpoint: http://localhost:4566
+  access-key: test
+  secret-key: test
+  sqs:
+    standard-queue-name: nameless-local-poc-standard-queue
+    fifo-queue-name: nameless-local-poc-fifo-queue.fifo
+    dlq-name: nameless-local-poc-dlq
+    fifo-dlq-name: nameless-local-poc-fifo-dlq.fifo
+    delay-queue-name: nameless-local-poc-delay-queue

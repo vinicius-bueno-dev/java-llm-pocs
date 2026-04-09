@@ -182,6 +182,44 @@ resource "aws_s3_bucket_website_configuration" "website_config" {
 }
 
 # =============================================================================
+# Bucket com Object Lock (para POC de retention e legal hold)
+# =============================================================================
+
+resource "aws_s3_bucket" "object_lock_bucket" {
+  bucket              = "${var.project_name}-${var.environment}-poc-object-lock"
+  object_lock_enabled = true
+
+  tags = {
+    Name        = "${var.project_name}-poc-object-lock"
+    Environment = var.environment
+    ManagedBy   = "terraform"
+    POC         = "s3-storage"
+    Purpose     = "object-lock-retention"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "object_lock_versioning" {
+  bucket = aws_s3_bucket.object_lock_bucket.id
+
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+resource "aws_s3_bucket_object_lock_configuration" "object_lock_config" {
+  bucket = aws_s3_bucket.object_lock_bucket.id
+
+  rule {
+    default_retention {
+      mode = "GOVERNANCE"
+      days = 1
+    }
+  }
+
+  depends_on = [aws_s3_bucket_versioning.object_lock_versioning]
+}
+
+# =============================================================================
 # Event Notifications — SQS Queue
 # =============================================================================
 

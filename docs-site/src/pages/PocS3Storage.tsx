@@ -23,6 +23,9 @@ const tocItems: TOCItem[] = [
   { id: 'notifications', title: 'Event Notifications' },
   { id: 'logging', title: 'Access Logging' },
   { id: 'website', title: 'Website Hosting' },
+  { id: 'object-lock', title: 'Object Lock' },
+  { id: 'checksums', title: 'Checksums' },
+  { id: 'conditional', title: 'Conditional Requests' },
   { id: 'api-reference', title: 'Referencia da API' },
   { id: 'running', title: 'Como Rodar' },
 ]
@@ -45,7 +48,7 @@ export function PocS3Storage() {
           Visao Geral
         </h2>
         <p>
-          Esta POC explora 13 areas de funcionalidade do Amazon S3 em uma unica aplicacao
+          Esta POC explora 16 areas de funcionalidade do Amazon S3 em uma unica aplicacao
           Spring Boot conectada ao LocalStack. O objetivo e demonstrar, de forma pratica,
           como usar o <strong>AWS SDK for Java v2</strong> para interagir com buckets e objetos.
         </p>
@@ -591,6 +594,136 @@ s3Client.putBucketWebsiteConfiguration(
         </Callout>
 
         {/* ================================================================ */}
+        {/* OBJECT LOCK */}
+        {/* ================================================================ */}
+        <h2 id="object-lock" className="heading-anchor">
+          <a href="#object-lock" className="heading-anchor__link" aria-hidden="true">#</a>
+          Object Lock
+        </h2>
+        <p>
+          Object Lock impede a exclusao ou sobrescrita de objetos durante um periodo definido.
+          Funciona em dois modos: <strong>GOVERNANCE</strong> (permite bypass com permissao especial)
+          e <strong>COMPLIANCE</strong> (ninguem pode deletar, nem o root).
+          Requer versionamento habilitado no bucket.
+        </p>
+        <p>
+          A POC demonstra como criar um bucket com Object Lock, configurar retencao padrao,
+          aplicar retencao a objetos individuais e gerenciar Legal Hold.
+        </p>
+        <CodeBlock language="java" title="ObjectLockService.java" code={`// Criar bucket com Object Lock
+s3Client.createBucket(CreateBucketRequest.builder()
+    .bucket(bucketName)
+    .objectLockEnabledForBucket(true)
+    .build());
+
+// Configurar retencao padrao (GOVERNANCE, 1 dia)
+s3Client.putObjectLockConfiguration(
+    PutObjectLockConfigurationRequest.builder()
+        .bucket(bucket)
+        .objectLockConfiguration(ObjectLockConfiguration.builder()
+            .objectLockEnabled(ObjectLockEnabled.ENABLED)
+            .rule(ObjectLockRule.builder()
+                .defaultRetention(DefaultRetention.builder()
+                    .mode(ObjectLockRetentionMode.GOVERNANCE)
+                    .days(1).build())
+                .build())
+            .build())
+        .build());
+
+// Aplicar Legal Hold em objeto
+s3Client.putObjectLegalHold(PutObjectLegalHoldRequest.builder()
+    .bucket(bucket).key(key)
+    .legalHold(ObjectLockLegalHold.builder()
+        .status(ObjectLockLegalHoldStatus.ON).build())
+    .build());`} />
+
+        <Callout type="warning">
+          <p>
+            Legal Hold tem bugs conhecidos no LocalStack Community (issue #8183).
+            O modo GOVERNANCE funciona corretamente.
+          </p>
+        </Callout>
+
+        {/* ================================================================ */}
+        {/* CHECKSUMS */}
+        {/* ================================================================ */}
+        <h2 id="checksums" className="heading-anchor">
+          <a href="#checksums" className="heading-anchor__link" aria-hidden="true">#</a>
+          Checksums
+        </h2>
+        <p>
+          O S3 suporta checksums adicionais alem do MD5 (ETag): <strong>CRC32</strong>,
+          <strong>CRC32C</strong>, <strong>SHA1</strong> e <strong>SHA256</strong>.
+          Isso permite validacao de integridade end-to-end durante uploads.
+        </p>
+        <p>
+          E possivel pedir ao S3 para calcular o checksum automaticamente, ou enviar
+          um checksum pre-calculado que o S3 valida antes de aceitar o upload.
+        </p>
+        <CodeBlock language="java" title="ChecksumService.java" code={`// Upload com checksum automatico
+s3Client.putObject(PutObjectRequest.builder()
+    .bucket(bucket).key(key)
+    .checksumAlgorithm(ChecksumAlgorithm.SHA256)
+    .build(),
+    RequestBody.fromBytes(content));
+
+// Upload com checksum pre-calculado (validacao server-side)
+s3Client.putObject(PutObjectRequest.builder()
+    .bucket(bucket).key(key)
+    .checksumAlgorithm(ChecksumAlgorithm.CRC32)
+    .checksumCRC32(precalculatedValue)
+    .build(),
+    RequestBody.fromBytes(content));
+
+// Verificar checksum de objeto existente
+s3Client.getObjectAttributes(GetObjectAttributesRequest.builder()
+    .bucket(bucket).key(key)
+    .objectAttributes(ObjectAttributes.CHECKSUM)
+    .build());`} />
+
+        {/* ================================================================ */}
+        {/* CONDITIONAL REQUESTS */}
+        {/* ================================================================ */}
+        <h2 id="conditional" className="heading-anchor">
+          <a href="#conditional" className="heading-anchor__link" aria-hidden="true">#</a>
+          Conditional Requests
+        </h2>
+        <p>
+          Conditional requests permitem otimizar transferencias e evitar conflitos.
+          <strong>If-Match</strong> retorna o objeto somente se o ETag corresponde (evita overwrites).
+          <strong>If-None-Match</strong> retorna 304 se o ETag ainda e o mesmo (cache validation).
+          <strong>If-Modified-Since</strong> retorna o objeto somente se foi alterado apos uma data.
+        </p>
+        <p>
+          A POC tambem demonstra <strong>conditional writes</strong> — enviar um objeto somente
+          se a chave nao existe (pattern write-once).
+        </p>
+        <CodeBlock language="java" title="ConditionalRequestService.java" code={`// Download condicional — somente se ETag corresponde
+s3Client.getObjectAsBytes(GetObjectRequest.builder()
+    .bucket(bucket).key(key)
+    .ifMatch(expectedEtag)
+    .build());
+
+// Download condicional — retorna 304 se nao modificado
+s3Client.getObjectAsBytes(GetObjectRequest.builder()
+    .bucket(bucket).key(key)
+    .ifNoneMatch(cachedEtag)
+    .build());
+
+// Download condicional — somente se modificado apos data
+s3Client.getObjectAsBytes(GetObjectRequest.builder()
+    .bucket(bucket).key(key)
+    .ifModifiedSince(sinceDate)
+    .build());`} />
+
+        <Callout type="tip">
+          <p>
+            Conditional requests sao essenciais para implementar cache HTTP eficiente
+            e prevenir conflitos em cenarios de escrita concorrente.
+          </p>
+        </Callout>
+
+        {/* ================================================================ */}
         {/* API REFERENCE */}
         {/* ================================================================ */}
         <h2 id="api-reference" className="heading-anchor">
@@ -598,7 +731,7 @@ s3Client.putBucketWebsiteConfiguration(
           Referencia da API
         </h2>
         <p>
-          A tabela abaixo lista todos os 13 grupos de endpoints expostos pela POC.
+          A tabela abaixo lista todos os 16 grupos de endpoints expostos pela POC.
           Todos usam o prefixo base <code>/api/s3</code>.
         </p>
         <Table
@@ -617,6 +750,9 @@ s3Client.putBucketWebsiteConfiguration(
             ['Logging', <code>/api/s3/logging</code>, 'Enable, Get config, Disable, List logs'],
             ['Website', <code>/api/s3/website</code>, 'Configure, Get config, Delete, Upload files'],
             ['Bucket Ops', <code>/api/s3/buckets</code>, 'Create, List, Delete, Head bucket'],
+            ['Object Lock', <code>/api/s3/object-lock</code>, 'Create locked bucket, Retention (default/object), Legal Hold'],
+            ['Checksums', <code>/api/s3/checksums</code>, 'Upload with checksum, Verify, Upload precalculated'],
+            ['Conditional', <code>/api/s3/conditional</code>, 'If-Match, If-None-Match, If-Modified-Since, If-Not-Exists'],
           ]}
         />
 
