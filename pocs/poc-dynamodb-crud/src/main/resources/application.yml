@@ -1,0 +1,17 @@
+server:
+  port: 8082
+
+spring:
+  application:
+    name: poc-dynamodb-crud
+
+aws:
+  region: us-east-1
+  endpoint: http://localhost:4566
+  access-key: test
+  secret-key: test
+  dynamodb:
+    users-table-name: nameless-local-poc-users
+    events-table-name: nameless-local-poc-events
+    gsi-by-email: by-email
+    lsi-by-created-at: by-created-at

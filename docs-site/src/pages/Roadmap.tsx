@@ -154,9 +154,9 @@ const categories: Category[] = [
         name: 'DynamoDB',
         aws: 'Amazon DynamoDB',
         poc: 'poc-dynamodb-crud',
-        description: 'NoSQL key-value com CRUD, queries, GSI/LSI, streams, TTL e batch operations.',
-        phase: 'next',
-        features: ['CRUD', 'Query & Scan', 'GSI/LSI', 'Streams', 'TTL', 'Batch Ops'],
+        description: 'NoSQL key-value com CRUD, queries, GSI/LSI, streams, TTL, optimistic locking e batch operations.',
+        phase: 'done',
+        features: ['CRUD', 'Query & Scan', 'GSI/LSI', 'Pagination', 'TTL', 'Batch Ops', 'Optimistic Locking'],
       },
       {
         name: 'ElastiCache',

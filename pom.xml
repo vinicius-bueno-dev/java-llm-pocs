@@ -23,6 +23,7 @@
         <!-- POCs adicionadas aqui conforme criadas -->
         <module>pocs/poc-s3-storage</module>
         <module>pocs/poc-sqs-messaging</module>
+        <module>pocs/poc-dynamodb-crud</module>
     </modules>
 
     <properties>
