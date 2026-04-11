@@ -18,3 +18,10 @@ module "sqs" {
   project_name = var.project_name
   environment  = var.environment
 }
+
+# --- POC 3: DynamoDB ---
+module "dynamodb" {
+  source       = "./modules/dynamodb"
+  project_name = var.project_name
+  environment  = var.environment
+}
