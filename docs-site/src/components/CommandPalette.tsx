@@ -71,6 +71,12 @@ const searchIndex: SearchEntry[] = [
     keywords: ['sqs', 'messaging', 'queue', 'fifo', 'dead-letter', 'dlq', 'delay', 'batch', 'producer', 'consumer', 'visibility', 'long polling', 'redrive', 'deduplication', 'poc'],
   },
   {
+    title: 'POC DynamoDB CRUD',
+    section: 'POCs',
+    path: '/pocs/dynamodb-crud',
+    keywords: ['dynamodb', 'crud', 'single-table', 'gsi', 'lsi', 'index', 'paginacao', 'lastEvaluatedKey', 'pageToken', 'optimistic', 'locking', 'condition', 'expression', 'ttl', 'batch', 'scan', 'poc', 'nosql'],
+  },
+  {
     title: 'POC S3 Storage',
     section: 'POCs',
     path: '/pocs/s3-storage',

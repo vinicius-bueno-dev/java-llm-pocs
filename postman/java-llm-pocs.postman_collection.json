@@ -39,6 +39,11 @@
       "key": "snsTopicArn",
       "value": "arn:aws:sns:us-east-1:000000000000:nameless-local-s3-events",
       "type": "string"
+    },
+    {
+      "key": "dynamoBaseUrl",
+      "value": "http://localhost:8082",
+      "type": "string"
     }
   ],
   "item": [
@@ -1077,6 +1082,197 @@
                   "host": ["{{baseUrl}}"],
                   "path": ["api", "s3", "logging", "config"],
                   "query": [{ "key": "bucket", "value": "{{bucket}}" }]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "poc-dynamodb-crud",
+      "description": "POC de DynamoDB — single-table design, GSI/LSI, paginacao opaca, optimistic locking, BatchWriteItem e TTL com Spring Boot + AWS SDK v2 + LocalStack. Porta: 8082.",
+      "item": [
+        {
+          "name": "Users — CRUD",
+          "item": [
+            {
+              "name": "Create User",
+              "request": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"tenantId\": \"acme\",\n  \"userId\": \"u-1\",\n  \"email\": \"alice@acme.com\",\n  \"name\": \"Alice\"\n}"
+                },
+                "url": {
+                  "raw": "{{dynamoBaseUrl}}/api/dynamodb/users",
+                  "host": ["{{dynamoBaseUrl}}"],
+                  "path": ["api", "dynamodb", "users"]
+                }
+              }
+            },
+            {
+              "name": "Get User",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{dynamoBaseUrl}}/api/dynamodb/users/acme/u-1",
+                  "host": ["{{dynamoBaseUrl}}"],
+                  "path": ["api", "dynamodb", "users", "acme", "u-1"]
+                }
+              }
+            },
+            {
+              "name": "Update User (Optimistic Locking)",
+              "request": {
+                "method": "PUT",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Alice Updated\",\n  \"expectedVersion\": 1\n}"
+                },
+                "url": {
+                  "raw": "{{dynamoBaseUrl}}/api/dynamodb/users/acme/u-1",
+                  "host": ["{{dynamoBaseUrl}}"],
+                  "path": ["api", "dynamodb", "users", "acme", "u-1"]
+                }
+              }
+            },
+            {
+              "name": "Delete User",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{dynamoBaseUrl}}/api/dynamodb/users/acme/u-1",
+                  "host": ["{{dynamoBaseUrl}}"],
+                  "path": ["api", "dynamodb", "users", "acme", "u-1"]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Users — Queries",
+          "item": [
+            {
+              "name": "Query by Tenant",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{dynamoBaseUrl}}/api/dynamodb/users/query/by-tenant?tenantId=acme&limit=10",
+                  "host": ["{{dynamoBaseUrl}}"],
+                  "path": ["api", "dynamodb", "users", "query", "by-tenant"],
+                  "query": [
+                    { "key": "tenantId", "value": "acme" },
+                    { "key": "limit", "value": "10" },
+                    { "key": "pageToken", "value": "", "disabled": true }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Query by Email (GSI)",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{dynamoBaseUrl}}/api/dynamodb/users/query/by-email?email=alice@acme.com&limit=10",
+                  "host": ["{{dynamoBaseUrl}}"],
+                  "path": ["api", "dynamodb", "users", "query", "by-email"],
+                  "query": [
+                    { "key": "email", "value": "alice@acme.com" },
+                    { "key": "limit", "value": "10" },
+                    { "key": "pageToken", "value": "", "disabled": true }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Query by Created At (LSI)",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{dynamoBaseUrl}}/api/dynamodb/users/query/by-created-at?tenantId=acme&ascending=true&limit=10",
+                  "host": ["{{dynamoBaseUrl}}"],
+                  "path": ["api", "dynamodb", "users", "query", "by-created-at"],
+                  "query": [
+                    { "key": "tenantId", "value": "acme" },
+                    { "key": "ascending", "value": "true" },
+                    { "key": "limit", "value": "10" },
+                    { "key": "pageToken", "value": "", "disabled": true }
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Events — Batch and Scan",
+          "item": [
+            {
+              "name": "Batch Write Events",
+              "request": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "body": {
+                  "mode": "raw",
+                  "raw": "[\n  { \"eventId\": \"e-1\", \"type\": \"LOGIN\",  \"payload\": \"{}\" },\n  { \"eventId\": \"e-2\", \"type\": \"LOGOUT\", \"payload\": \"{}\" }\n]"
+                },
+                "url": {
+                  "raw": "{{dynamoBaseUrl}}/api/dynamodb/events/batch",
+                  "host": ["{{dynamoBaseUrl}}"],
+                  "path": ["api", "dynamodb", "events", "batch"]
+                }
+              }
+            },
+            {
+              "name": "Scan Events",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{dynamoBaseUrl}}/api/dynamodb/events/scan?limit=20",
+                  "host": ["{{dynamoBaseUrl}}"],
+                  "path": ["api", "dynamodb", "events", "scan"],
+                  "query": [
+                    { "key": "limit", "value": "20" },
+                    { "key": "pageToken", "value": "", "disabled": true }
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "TTL",
+          "item": [
+            {
+              "name": "Describe TTL",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{dynamoBaseUrl}}/api/dynamodb/ttl/describe",
+                  "host": ["{{dynamoBaseUrl}}"],
+                  "path": ["api", "dynamodb", "ttl", "describe"]
+                }
+              }
+            },
+            {
+              "name": "Set User TTL",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "url": {
+                  "raw": "{{dynamoBaseUrl}}/api/dynamodb/ttl/acme/u-1?seconds=3600",
+                  "host": ["{{dynamoBaseUrl}}"],
+                  "path": ["api", "dynamodb", "ttl", "acme", "u-1"],
+                  "query": [{ "key": "seconds", "value": "3600" }]
                 }
               }
             }

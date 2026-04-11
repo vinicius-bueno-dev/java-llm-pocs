@@ -35,6 +35,7 @@ export const navigation: NavSection[] = [
       { title: 'Roadmap', path: '/pocs/roadmap' },
       { title: 'S3 Storage', path: '/pocs/s3-storage' },
       { title: 'SQS Messaging', path: '/pocs/sqs-messaging' },
+      { title: 'DynamoDB CRUD', path: '/pocs/dynamodb-crud' },
     ],
   },
 ]

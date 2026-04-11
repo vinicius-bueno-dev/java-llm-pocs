@@ -13,6 +13,7 @@ import { TerraformLocalStack } from './pages/TerraformLocalStack'
 import { PocS3Storage } from './pages/PocS3Storage'
 import { Roadmap } from './pages/Roadmap'
 import { PocSqsMessaging } from './pages/PocSqsMessaging'
+import { PocDynamoDbCrud } from './pages/PocDynamoDbCrud'
 
 export function App() {
   const { theme, toggle } = useTheme()
@@ -59,6 +60,7 @@ export function App() {
         <Route path="/pocs/s3-storage" element={<PocS3Storage />} />
         <Route path="/pocs/roadmap" element={<Roadmap />} />
         <Route path="/pocs/sqs-messaging" element={<PocSqsMessaging />} />
+        <Route path="/pocs/dynamodb-crud" element={<PocDynamoDbCrud />} />
       </Routes>
       <CommandPalette open={paletteOpen} onClose={() => setPaletteOpen(false)} />
       <BackToTop />
