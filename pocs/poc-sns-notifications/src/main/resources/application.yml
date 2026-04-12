@@ -1,0 +1,18 @@
+server:
+  port: 8083
+
+spring:
+  application:
+    name: poc-sns-notifications
+
+aws:
+  region: us-east-1
+  endpoint: http://localhost:4566
+  access-key: test
+  secret-key: test
+  sns:
+    standard-topic-name: nameless-local-poc-notifications
+    fifo-topic-name: nameless-local-poc-notifications.fifo
+    orders-queue-name: nameless-local-poc-sns-orders
+    analytics-queue-name: nameless-local-poc-sns-analytics
+    dlq-name: nameless-local-poc-sns-dlq

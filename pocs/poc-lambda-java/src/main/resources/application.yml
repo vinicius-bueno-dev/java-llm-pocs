@@ -1,0 +1,19 @@
+server:
+  port: 8084
+
+spring:
+  application:
+    name: poc-lambda-java
+
+aws:
+  region: us-east-1
+  endpoint: http://localhost:4566
+  access-key: test
+  secret-key: test
+  lambda:
+    role-arn: arn:aws:iam::000000000000:role/nameless-local-poc-lambda-role
+    artifacts-bucket: nameless-local-poc-lambda-artifacts
+    trigger-queue-name: nameless-local-poc-lambda-trigger
+    runtime: java21
+    timeout: 30
+    memory-size: 512

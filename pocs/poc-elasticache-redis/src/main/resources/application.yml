@@ -1,0 +1,10 @@
+server:
+  port: 8091
+
+spring:
+  application:
+    name: poc-elasticache-redis
+  data:
+    redis:
+      host: localhost
+      port: 6379

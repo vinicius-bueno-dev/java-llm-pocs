@@ -57,6 +57,7 @@ nameless/
 │       └── modules/
 │           ├── s3/
 │           ├── sqs/
+│           ├── sns/
 │           ├── dynamodb/
 │           └── lambda/
 ├── docs/
@@ -70,15 +71,26 @@ nameless/
     └── poc-event-driven/
 ```
 
-## POCs Planejadas
+## POCs
 
-| POC | Serviços AWS | Status |
+| POC | Servicos AWS | Status |
 |---|---|---|
-| `poc-s3-storage` | S3 | 🔜 Em breve |
-| `poc-sqs-messaging` | SQS | 🔜 Em breve |
-| `poc-dynamodb-crud` | DynamoDB | 🔜 Em breve |
-| `poc-lambda-java` | Lambda + S3 | 🔜 Em breve |
-| `poc-event-driven` | EventBridge + SQS + Lambda | 🔜 Em breve |
+| `poc-s3-storage` | S3 | Completo |
+| `poc-sqs-messaging` | SQS | Completo |
+| `poc-dynamodb-crud` | DynamoDB | Completo |
+| `poc-sns-notifications` | SNS + SQS (fan-out) | Proximo |
+| `poc-lambda-java` | Lambda + S3 + SQS | Planejado |
+| `poc-event-driven` | EventBridge + SQS + Lambda | Planejado |
+| `poc-secrets-manager` | Secrets Manager | Planejado |
+| `poc-kms-encryption` | KMS | Planejado |
+| `poc-cloudwatch-logs` | CloudWatch Logs + Metrics | Planejado |
+| `poc-step-functions` | Step Functions + Lambda | Explorando |
+| `poc-api-gateway` | API Gateway + Lambda | Explorando |
+| `poc-elasticache-redis` | ElastiCache (Redis) | Explorando |
+| `poc-kinesis-streaming` | Kinesis Data Streams | Explorando |
+| `poc-ses-email` | SES | Explorando |
+| `poc-cloudfront-cdn` | CloudFront + S3 | Explorando |
+| `poc-iam-policies` | IAM | Explorando |
 
 ## Documentação de Estudo
 

@@ -89,7 +89,7 @@ const categories: Category[] = [
         aws: 'Amazon SQS',
         poc: 'poc-sqs-messaging',
         description: 'Filas de mensagens com standard queues, FIFO, dead-letter queues, delay queues, batch operations, tags e policies.',
-        phase: 'current',
+        phase: 'done',
         features: ['Standard Queue', 'FIFO', 'DLQ', 'Long Polling', 'Batch Operations', 'Delay Queue', 'Tags', 'Policies', 'Redrive'],
       },
       {
@@ -97,7 +97,7 @@ const categories: Category[] = [
         aws: 'Amazon SNS',
         poc: 'poc-sns-notifications',
         description: 'Pub/sub messaging com topics, subscriptions, fan-out para SQS e filtros de mensagem.',
-        phase: 'planned',
+        phase: 'current',
         features: ['Topics', 'Subscriptions', 'Fan-out', 'Message Filtering'],
       },
       {

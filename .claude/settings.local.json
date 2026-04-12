@@ -46,7 +46,22 @@
       "WebFetch(domain:www.localstack.cloud)",
       "Bash(terraform fmt:*)",
       "Bash(cp:*)",
-      "Bash(./pocs/poc-s3-storage/mvnw compile:*)"
+      "Bash(./pocs/poc-s3-storage/mvnw compile:*)",
+      "Bash(./mvnw -q -DskipTests compile)",
+      "Bash(./mvnw test:*)",
+      "Bash(node:*)",
+      "Bash(xargs ls:*)",
+      "Bash(terraform validate:*)",
+      "Bash(./pocs/poc-sns-notifications/mvnw -pl pocs/poc-sns-notifications -am compile)",
+      "Bash(./pocs/poc-sns-notifications/mvnw -pl pocs/poc-sns-notifications -am verify)",
+      "Bash(docker info:*)",
+      "Bash(./pocs/poc-sns-notifications/mvnw -pl pocs/poc-sns-notifications -am verify -DskipTests)",
+      "Bash(./pocs/poc-lambda-java/mvnw -pl pocs/poc-lambda-java -am compile)",
+      "Bash(./pocs/poc-event-driven/mvnw -pl pocs/poc-event-driven -am compile)",
+      "Bash(./pocs/poc-secrets-manager/mvnw -pl pocs/poc-secrets-manager -am compile)",
+      "Bash(./pocs/poc-kms-encryption/mvnw -pl pocs/poc-kms-encryption -am compile)",
+      "Bash(./pocs/poc-cloudwatch-logs/mvnw -pl pocs/poc-cloudwatch-logs -am compile)",
+      "Bash(./pocs/poc-sqs-messaging/mvnw compile:*)"
     ]
   }
 }

@@ -24,6 +24,19 @@
         <module>pocs/poc-s3-storage</module>
         <module>pocs/poc-sqs-messaging</module>
         <module>pocs/poc-dynamodb-crud</module>
+        <module>pocs/poc-sns-notifications</module>
+        <module>pocs/poc-lambda-java</module>
+        <module>pocs/poc-event-driven</module>
+        <module>pocs/poc-secrets-manager</module>
+        <module>pocs/poc-kms-encryption</module>
+        <module>pocs/poc-cloudwatch-logs</module>
+        <module>pocs/poc-step-functions</module>
+        <module>pocs/poc-api-gateway</module>
+        <module>pocs/poc-elasticache-redis</module>
+        <module>pocs/poc-kinesis-streaming</module>
+        <module>pocs/poc-ses-email</module>
+        <module>pocs/poc-cloudfront-cdn</module>
+        <module>pocs/poc-iam-policies</module>
     </modules>
 
     <properties>
