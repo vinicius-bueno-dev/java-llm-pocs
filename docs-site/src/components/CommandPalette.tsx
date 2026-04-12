@@ -82,6 +82,84 @@ const searchIndex: SearchEntry[] = [
     path: '/pocs/s3-storage',
     keywords: ['s3', 'storage', 'bucket', 'upload', 'download', 'presigned', 'versioning', 'multipart', 'encryption', 'cors', 'lifecycle', 'notification', 'tagging', 'acl', 'policy', 'website', 'poc', 'crud'],
   },
+  {
+    title: 'POC SNS Notifications',
+    section: 'POCs',
+    path: '/pocs/sns-notifications',
+    keywords: ['sns', 'notifications', 'topic', 'subscription', 'fan-out', 'pub-sub', 'filter', 'fifo', 'dead-letter', 'message', 'attributes', 'poc'],
+  },
+  {
+    title: 'POC Lambda Java',
+    section: 'POCs',
+    path: '/pocs/lambda-java',
+    keywords: ['lambda', 'serverless', 'function', 'handler', 'invoke', 'deploy', 'zip', 'event-source', 'trigger', 's3', 'sqs', 'async', 'poc'],
+  },
+  {
+    title: 'POC Event-Driven',
+    section: 'POCs',
+    path: '/pocs/event-driven',
+    keywords: ['eventbridge', 'event', 'driven', 'bus', 'rule', 'pattern', 'target', 'schedule', 'cron', 'mediator', 'poc'],
+  },
+  {
+    title: 'POC Secrets Manager',
+    section: 'POCs',
+    path: '/pocs/secrets-manager',
+    keywords: ['secrets', 'manager', 'credential', 'rotation', 'versioning', 'store', 'retrieve', 'password', 'api-key', 'poc'],
+  },
+  {
+    title: 'POC KMS Encryption',
+    section: 'POCs',
+    path: '/pocs/kms-encryption',
+    keywords: ['kms', 'encryption', 'key', 'cmk', 'alias', 'encrypt', 'decrypt', 'envelope', 'data-key', 'rotation', 'symmetric', 'poc'],
+  },
+  {
+    title: 'POC CloudWatch Logs',
+    section: 'POCs',
+    path: '/pocs/cloudwatch-logs',
+    keywords: ['cloudwatch', 'logs', 'metrics', 'alarm', 'log-group', 'log-stream', 'custom-metric', 'monitoring', 'observability', 'poc'],
+  },
+  {
+    title: 'POC Step Functions',
+    section: 'POCs',
+    path: '/pocs/step-functions',
+    keywords: ['step-functions', 'state-machine', 'workflow', 'asl', 'parallel', 'choice', 'wait', 'execution', 'orchestration', 'poc'],
+  },
+  {
+    title: 'POC API Gateway',
+    section: 'POCs',
+    path: '/pocs/api-gateway',
+    keywords: ['api-gateway', 'rest', 'http', 'resource', 'method', 'integration', 'lambda-proxy', 'stage', 'deployment', 'throttling', 'poc'],
+  },
+  {
+    title: 'POC ElastiCache Redis',
+    section: 'POCs',
+    path: '/pocs/elasticache-redis',
+    keywords: ['elasticache', 'redis', 'cache', 'cache-aside', 'rate-limiting', 'session', 'ttl', 'spring-data-redis', 'poc'],
+  },
+  {
+    title: 'POC Kinesis Streaming',
+    section: 'POCs',
+    path: '/pocs/kinesis-streaming',
+    keywords: ['kinesis', 'streaming', 'data-stream', 'shard', 'producer', 'consumer', 'partition-key', 'real-time', 'poc'],
+  },
+  {
+    title: 'POC SES Email',
+    section: 'POCs',
+    path: '/pocs/ses-email',
+    keywords: ['ses', 'email', 'send', 'template', 'identity', 'html', 'raw', 'attachment', 'bounce', 'poc'],
+  },
+  {
+    title: 'POC CloudFront CDN',
+    section: 'POCs',
+    path: '/pocs/cloudfront-cdn',
+    keywords: ['cloudfront', 'cdn', 'distribution', 'origin', 'invalidation', 'cache', 's3-origin', 'poc'],
+  },
+  {
+    title: 'POC IAM Policies',
+    section: 'POCs',
+    path: '/pocs/iam-policies',
+    keywords: ['iam', 'role', 'policy', 'permission', 'assume-role', 'attach', 'detach', 'sts', 'simulator', 'poc'],
+  },
 ]
 
 function fuzzyMatch(query: string, entry: SearchEntry): number {

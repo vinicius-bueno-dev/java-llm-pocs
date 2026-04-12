@@ -117,16 +117,27 @@ terraform output`} />
 
         <h2 id="pocs" className="heading-anchor">
           <a href="#pocs" className="heading-anchor__link" aria-hidden="true">#</a>
-          POCs Planejadas
+          POCs Implementadas
         </h2>
         <Table
           headers={['POC', 'Servicos AWS', 'Status']}
           rows={[
             [<code>poc-s3-storage</code>, 'S3', <span className="status-badge status-badge--done">Completo</span>],
-            [<code>poc-sqs-messaging</code>, 'SQS', <span className="status-badge status-badge--soon">Em breve</span>],
-            [<code>poc-dynamodb-crud</code>, 'DynamoDB', <span className="status-badge status-badge--soon">Em breve</span>],
-            [<code>poc-lambda-java</code>, 'Lambda + S3', <span className="status-badge status-badge--soon">Em breve</span>],
-            [<code>poc-event-driven</code>, 'EventBridge + SQS + Lambda', <span className="status-badge status-badge--soon">Em breve</span>],
+            [<code>poc-sqs-messaging</code>, 'SQS', <span className="status-badge status-badge--done">Completo</span>],
+            [<code>poc-dynamodb-crud</code>, 'DynamoDB', <span className="status-badge status-badge--done">Completo</span>],
+            [<code>poc-sns-notifications</code>, 'SNS + SQS (fan-out)', <span className="status-badge status-badge--done">Completo</span>],
+            [<code>poc-lambda-java</code>, 'Lambda + S3 + SQS', <span className="status-badge status-badge--done">Completo</span>],
+            [<code>poc-event-driven</code>, 'EventBridge + SQS + Lambda', <span className="status-badge status-badge--done">Completo</span>],
+            [<code>poc-secrets-manager</code>, 'Secrets Manager', <span className="status-badge status-badge--done">Completo</span>],
+            [<code>poc-kms-encryption</code>, 'KMS', <span className="status-badge status-badge--done">Completo</span>],
+            [<code>poc-cloudwatch-logs</code>, 'CloudWatch Logs + Metrics', <span className="status-badge status-badge--done">Completo</span>],
+            [<code>poc-step-functions</code>, 'Step Functions + Lambda', <span className="status-badge status-badge--done">Completo</span>],
+            [<code>poc-api-gateway</code>, 'API Gateway + Lambda', <span className="status-badge status-badge--done">Completo</span>],
+            [<code>poc-elasticache-redis</code>, 'ElastiCache (Redis)', <span className="status-badge status-badge--done">Completo</span>],
+            [<code>poc-kinesis-streaming</code>, 'Kinesis Data Streams', <span className="status-badge status-badge--done">Completo</span>],
+            [<code>poc-ses-email</code>, 'SES', <span className="status-badge status-badge--done">Completo</span>],
+            [<code>poc-cloudfront-cdn</code>, 'CloudFront + S3', <span className="status-badge status-badge--done">Completo</span>],
+            [<code>poc-iam-policies</code>, 'IAM', <span className="status-badge status-badge--done">Completo</span>],
           ]}
         />
 

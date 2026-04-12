@@ -14,6 +14,19 @@ import { PocS3Storage } from './pages/PocS3Storage'
 import { Roadmap } from './pages/Roadmap'
 import { PocSqsMessaging } from './pages/PocSqsMessaging'
 import { PocDynamoDbCrud } from './pages/PocDynamoDbCrud'
+import { PocSnsNotifications } from './pages/PocSnsNotifications'
+import { PocLambdaJava } from './pages/PocLambdaJava'
+import { PocEventDriven } from './pages/PocEventDriven'
+import { PocSecretsManager } from './pages/PocSecretsManager'
+import { PocKmsEncryption } from './pages/PocKmsEncryption'
+import { PocCloudwatchLogs } from './pages/PocCloudwatchLogs'
+import { PocStepFunctions } from './pages/PocStepFunctions'
+import { PocApiGateway } from './pages/PocApiGateway'
+import { PocElasticacheRedis } from './pages/PocElasticacheRedis'
+import { PocKinesisStreaming } from './pages/PocKinesisStreaming'
+import { PocSesEmail } from './pages/PocSesEmail'
+import { PocCloudfrontCdn } from './pages/PocCloudfrontCdn'
+import { PocIamPolicies } from './pages/PocIamPolicies'
 
 export function App() {
   const { theme, toggle } = useTheme()
@@ -61,6 +74,19 @@ export function App() {
         <Route path="/pocs/roadmap" element={<Roadmap />} />
         <Route path="/pocs/sqs-messaging" element={<PocSqsMessaging />} />
         <Route path="/pocs/dynamodb-crud" element={<PocDynamoDbCrud />} />
+        <Route path="/pocs/sns-notifications" element={<PocSnsNotifications />} />
+        <Route path="/pocs/lambda-java" element={<PocLambdaJava />} />
+        <Route path="/pocs/event-driven" element={<PocEventDriven />} />
+        <Route path="/pocs/secrets-manager" element={<PocSecretsManager />} />
+        <Route path="/pocs/kms-encryption" element={<PocKmsEncryption />} />
+        <Route path="/pocs/cloudwatch-logs" element={<PocCloudwatchLogs />} />
+        <Route path="/pocs/step-functions" element={<PocStepFunctions />} />
+        <Route path="/pocs/api-gateway" element={<PocApiGateway />} />
+        <Route path="/pocs/elasticache-redis" element={<PocElasticacheRedis />} />
+        <Route path="/pocs/kinesis-streaming" element={<PocKinesisStreaming />} />
+        <Route path="/pocs/ses-email" element={<PocSesEmail />} />
+        <Route path="/pocs/cloudfront-cdn" element={<PocCloudfrontCdn />} />
+        <Route path="/pocs/iam-policies" element={<PocIamPolicies />} />
       </Routes>
       <CommandPalette open={paletteOpen} onClose={() => setPaletteOpen(false)} />
       <BackToTop />
